@@ -5,7 +5,7 @@ from reviewboard.extensions.packaging import setup
 
 
 setup(
-    name='email_followers',
+    name='rb_p4_email_followers',
     version='0.1.1',
     description='Extension for Review Board to email p4 reviews when a review is posted',
     author='Scot Salmon',
@@ -15,7 +15,7 @@ setup(
     packages=find_packages(),
     entry_points={
         'reviewboard.extensions': [
-            'email_followers = email_followers.extension:FollowersEmailExtension',
+            'rb_p4_email_followers = rb_p4_email_followers.extension:FollowersEmailExtension',
         ],
     },
     classifiers=[
