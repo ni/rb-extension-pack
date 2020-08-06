@@ -7,11 +7,17 @@ from reviewboard.extensions.hooks import ReviewRequestPublishedEmailHook
 def _get_followers(review_request):
     """Return a list of all `User`s who have configured `p4 reviews` for the files in this review request."""
     all_reviewers = []
-    scmtool = review_request.repository.get_scmtool()
+    repository = review_request.repository
+    if repository is None:
+        return []
+    scmtool = repository.get_scmtool()
     if scmtool.name == "Perforce":
         client = scmtool.client
         with client.run_worker():
-            diff_files_mgr = review_request.get_latest_diffset().files
+            diffset = review_request.get_latest_diffset()
+            if diffset is None:
+                return []
+            diff_files_mgr = diffset.files
             diff_files = (
                 diff_files_mgr.all()
             )  # get actual FileDiffs from Django RelatedManager
